@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:args/args.dart';
+
 import 'command.dart';
 
 class HelpCommand extends Command {
@@ -13,7 +15,7 @@ class HelpCommand extends Command {
       'Help - Lists commands which can use during the Atm Simulator process.';
 
   @override
-  execute() {
+  execute(ArgResults results) {
     var content = StringBuffer();
     content
       ..writeln('')
@@ -23,6 +25,11 @@ class HelpCommand extends Command {
       ..writeln()
       ..writeln()
       ..writeln('help - To know supported command to use ATM simulator')
+      ..writeln('login [username] - Logs in as this customer and creates the customer if not exist')
+      ..writeln('valid login argument combination as below:')
+      ..writeln('login --username @@@@@@@')
+      ..writeln('login username @@@@@@@')
+      ..writeln('login u @@@@@@@')
       ..writeln()
       ..writeln('+---------------------------------------------------  +')
       ..writeln('|           Developer: Jayeshgiri Bavaji              |')

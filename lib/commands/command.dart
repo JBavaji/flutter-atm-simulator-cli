@@ -1,6 +1,8 @@
+import 'package:args/args.dart';
+
 abstract class Command {
   String name = "unknown";
-  String description = 'unknwon-description';
+  String description = 'unknown-description';
 
-  execute();
+  execute(ArgResults results);
 }

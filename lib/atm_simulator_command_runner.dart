@@ -13,17 +13,24 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
   @override
   Future<int> run(Iterable<String> args) async {
     ArgParser parser = ArgParser();
-    parser.addCommand(HelpCommand.commandHelp);
+    parser
+      ..addCommand(HelpCommand.commandHelp)
+      ..addCommand(LoginCommand.commandLogin)
+      ..addOption(LoginCommand.optionUserName, abbr: LoginCommand.abbrUserName);
 
     final argResults = parser.parse(args);
 
     switch (argResults.command?.name) {
       case HelpCommand.commandHelp:
-        HelpCommand().execute();
+        HelpCommand().execute(argResults);
+        return exit(0);
+
+      case LoginCommand.commandLogin:
+        LoginCommand().execute(argResults);
         return exit(0);
 
       default:
-        UnknownCommand().execute();
+        UnknownCommand().execute(argResults);
         return exit(0);
     }
   }
