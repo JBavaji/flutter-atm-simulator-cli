@@ -1,8 +1,14 @@
 import 'dart:io';
+import 'command.dart';
 
-class UnknownCommand {
+class UnknownCommand extends Command {
+  @override
   execute() {
-    stdout.writeln(
-        'Unknown command. User "help" to know more about supported commands');
+    var unknown = StringBuffer();
+    unknown
+      ..writeln('Unknown command.')
+      ..writeln('User "help" to know more about supported commands');
+
+    stdout.writeln(unknown.toString());
   }
 }
