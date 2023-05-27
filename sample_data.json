@@ -1,0 +1,44 @@
+[
+  {
+    "username": "jbavaji",
+    "balance": 40,
+    "transaction": [
+      {
+        "type": "deposit",
+        "amount": 100,
+        "username": "jbavaji"
+      },
+      {
+        "type": "withdraw",
+        "amount": 40,
+        "username": "jbavaji"
+      },
+      {
+        "type": "transfer",
+        "amount": 20,
+        "username": "jayeshgiri"
+      }
+    ]
+  },
+  {
+    "username": "jayeshgiri",
+    "balance": 15,
+    "transaction": [
+      {
+        "type": "deposit",
+        "amount": 60,
+        "username": "jayeshgiri"
+      },
+      {
+        "type": "withdraw",
+        "amount": 15,
+        "username": "jayeshgiri"
+      },
+      {
+        "type": "transfer",
+        "amount": 30,
+        "username": "jbavaji"
+      }
+    ]
+  }
+]
