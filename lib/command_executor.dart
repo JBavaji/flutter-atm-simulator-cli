@@ -15,6 +15,10 @@ class CommandExecutor {
           LoginCommand().execute(argResults);
           return;
 
+        case DepositCommand.commandDeposit:
+          DepositCommand().execute(argResults);
+          return;
+
         case LogoutCommand.commandLogout:
           LogoutCommand().execute(argResults);
           return;

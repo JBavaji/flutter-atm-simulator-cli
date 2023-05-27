@@ -22,6 +22,8 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
       ..addCommand(HelpCommand.commandHelp)
       ..addCommand(LoginCommand.commandLogin)
       ..addOption(LoginCommand.optionUserName)
+      ..addCommand(DepositCommand.commandDeposit)
+      ..addOption(DepositCommand.optionAmount)
       ..addCommand(LogoutCommand.commandLogout);
 
     final argResults = parser.parse(args);

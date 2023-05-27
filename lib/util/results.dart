@@ -3,5 +3,7 @@ enum CommandResults {
   missingInput,
   alreadyLoggedIn,
   alreadyLogout,
-  logout;
+  logout,
+  deposit,
+  save;
 }

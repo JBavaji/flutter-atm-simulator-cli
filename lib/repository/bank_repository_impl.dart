@@ -26,25 +26,13 @@ class BankRepositoryImpl extends BankRepository {
               loggedIn: true),
         );
 
-        /*
-          Save new customer in app file data system
-         */
-        String customersString = customersToString(data.customers);
-        saveData(customersString);
-
-        /*
-          ReInitialize app again with new customer
-         */
-        data.appInitialize();
-
+        saveActivity();
         result = CommandResults.welcome;
       } else {
         data.customers[indexFound].setLoggedIn = true;
         data.customer = data.customers[indexFound];
 
-        String customersString = customersToString(data.customers);
-        saveData(customersString);
-
+        saveActivity();
         result = CommandResults.welcome;
       }
     } else {
@@ -67,15 +55,38 @@ class BankRepositoryImpl extends BankRepository {
           (customer) => customer.username == data.customer?.username);
       data.customers[indexFound].setLoggedIn = null;
 
-      String customersString = customersToString(data.customers);
-      saveData(customersString);
-
-      data.appInitialize();
+      saveActivity();
       result = CommandResults.logout;
     } else {
       result = CommandResults.alreadyLogout;
     }
 
     return result;
+  }
+
+/*
+  Save customer in app file data system
+*/
+
+  @override
+  CommandResults saveActivity() {
+    int indexFound = data.customers
+        .indexWhere((customer) => customer.username == data.customer?.username);
+    data.customers[indexFound] = data.customer!;
+
+    String customersString = customersToString(data.customers);
+    saveData(customersString);
+
+    data.appInitialize();
+
+    return CommandResults.save;
+  }
+
+  @override
+  CommandResults deposit(double amount) {
+    data.customer?.balance?.deposit(amount);
+
+    saveActivity();
+    return CommandResults.deposit;
   }
 }
