@@ -30,6 +30,6 @@ class AccountBalance {
 
   @override
   String toString() {
-    return "INR $balance";
+    return "\$$balance";
   }
 }

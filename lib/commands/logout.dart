@@ -1,7 +1,10 @@
 import 'dart:io';
-
 import 'package:args/args.dart';
 
+import '../repository/bank_data.dart';
+import '../repository/bank_repository_impl.dart';
+import '../util/results.dart';
+import '../util/customer_extenstion.dart';
 import 'command.dart';
 
 class LogoutCommand extends Command {
@@ -14,13 +17,17 @@ class LogoutCommand extends Command {
   @override
   String get description => "Logout user.";
 
+  BankRepositoryImpl repositoryImpl = BankRepositoryImpl();
+  BankData data = BankData.instance;
+
   @override
   execute(ArgResults results) {
-    var logout = StringBuffer();
-    logout
-      ..writeln('Goodbye!!!')
-      ..writeln('Logout successfully');
+    CommandResults? result = repositoryImpl.logout();
 
-    stdout.writeln(logout.toString());
+    if (result == CommandResults.alreadyLogout) {
+      stdout.writeln("".noCustomerLogged);
+    } else {
+      stdout.writeln(data.customer?.goodBye);
+    }
   }
 }

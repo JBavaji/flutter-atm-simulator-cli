@@ -19,7 +19,7 @@ class BankData {
  
     int indexFound =
         customers.indexWhere((customer) => customer.loggedIn == true);
-    if (indexFound > 0) {
+    if (indexFound > -1) {
       customer = customers[indexFound];
     }
   }
