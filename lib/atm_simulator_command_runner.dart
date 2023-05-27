@@ -1,25 +1,29 @@
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
+import 'package:flutter_atm_simulator_cli/commands/commands.dart';
 
 class AtmSimulatorCommandRunner extends CommandRunner<int> {
   AtmSimulatorCommandRunner()
-      : super('atm_simulator_cli', 'A ATM Simulator Command-Line Interface') {}
+      : super(
+          'atm_simulator_cli',
+          'A ATM Simulator Command-Line Interface',
+        );
 
   @override
   Future<int> run(Iterable<String> args) async {
     ArgParser parser = ArgParser();
-        parser.addCommand('help');
+    parser.addCommand(HelpCommand.commandHelp);
 
     final argResults = parser.parse(args);
 
     switch (argResults.command?.name) {
-      case 'help':
-        print('Help Command detect');
+      case HelpCommand.commandHelp:
+        HelpCommand().execute();
         return exit(0);
 
       default:
-        print('Unknown command. User "help" for supported commands');
+        UnknownCommand().execute();
         return exit(0);
     }
   }
