@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
-import 'package:flutter_atm_simulator_cli/commands/commands.dart';
+
+import 'command_executor.dart';
+import 'commands/commands.dart';
 
 class AtmSimulatorCommandRunner extends CommandRunner<int> {
   AtmSimulatorCommandRunner()
@@ -16,22 +18,12 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
     parser
       ..addCommand(HelpCommand.commandHelp)
       ..addCommand(LoginCommand.commandLogin)
-      ..addOption(LoginCommand.optionUserName, abbr: LoginCommand.abbrUserName);
+      ..addOption(LoginCommand.optionUserName)
+      ..addCommand(LogoutCommand.commandLogout);
 
     final argResults = parser.parse(args);
 
-    switch (argResults.command?.name) {
-      case HelpCommand.commandHelp:
-        HelpCommand().execute(argResults);
-        return exit(0);
-
-      case LoginCommand.commandLogin:
-        LoginCommand().execute(argResults);
-        return exit(0);
-
-      default:
-        UnknownCommand().execute(argResults);
-        return exit(0);
-    }
+    CommandExecutor().commandArgumentExecuteResult(argResults);
+    return exit(0);
   }
 }

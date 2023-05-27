@@ -8,7 +8,6 @@ class LoginCommand extends Command {
   /// The [name] of the command. But static.
   static const String commandLogin = 'login';
   static const String optionUserName = 'username';
-  static const String abbrUserName = 'u';
 
   @override
   String get name => commandLogin;
