@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'account_balance.dart';
-import 'transaction.dart';
+import 'customer_transaction.dart';
 
 /*
     Sample customer
@@ -27,7 +27,7 @@ class Customer {
   Customer({
     String? username,
     AccountBalance? balance,
-    List<Transaction>? transaction,
+    List<CustomerTransaction>? transaction,
     bool? loggedIn,
   }) {
     _username = username;
@@ -42,7 +42,7 @@ class Customer {
     if (json['transaction'] != null) {
       _transaction = [];
       json['transaction'].forEach((v) {
-        _transaction?.add(Transaction.fromJson(v));
+        _transaction?.add(CustomerTransaction.fromJson(v));
       });
     }
     _loggedIn = json['loggedIn'];
@@ -50,13 +50,13 @@ class Customer {
 
   String? _username;
   AccountBalance? _balance;
-  List<Transaction>? _transaction;
+  List<CustomerTransaction>? _transaction;
   bool? _loggedIn;
 
   Customer copyWith({
     String? username,
     AccountBalance? balance,
-    List<Transaction>? transaction,
+    List<CustomerTransaction>? transaction,
     bool? loggedIn,
   }) =>
       Customer(
@@ -70,13 +70,13 @@ class Customer {
 
   AccountBalance? get balance => _balance;
 
-  List<Transaction> get transaction => _transaction ?? [];
+  List<CustomerTransaction> get transaction => _transaction ?? [];
 
   bool? get loggedIn => _loggedIn;
 
   set setLoggedIn(bool? value) => _loggedIn = value;
 
-  set setTransaction(List<Transaction>? value) {
+  set setTransaction(List<CustomerTransaction>? value) {
     _transaction = value;
   }
 

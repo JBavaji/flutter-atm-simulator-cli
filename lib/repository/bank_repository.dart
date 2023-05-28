@@ -1,4 +1,4 @@
-import '../models/transaction.dart';
+import '../models/customer_transaction.dart';
 import '../util/results.dart';
 
 abstract class BankRepository {

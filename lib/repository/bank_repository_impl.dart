@@ -1,4 +1,4 @@
-import '../models/transaction.dart';
+import '../models/customer_transaction.dart';
 import '../util/customer_extenstion.dart';
 import '../models/account_balance.dart';
 import '../models/customer.dart';
@@ -98,7 +98,7 @@ class BankRepositoryImpl extends BankRepository {
       }
     }
 
-    Transaction transaction = Transaction(
+    CustomerTransaction transaction = CustomerTransaction(
       id: data.customer?.incrementedId(),
       username: data.customer?.username,
       amount: amount,

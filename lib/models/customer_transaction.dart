@@ -11,10 +11,11 @@ import 'dart:convert';
       }
  */
 
-Transaction transactionFromJson(String str) =>
-    Transaction.fromJson(json.decode(str));
+CustomerTransaction transactionFromJson(String str) =>
+    CustomerTransaction.fromJson(json.decode(str));
 
-String transactionToJson(Transaction data) => json.encode(data.toJson());
+String transactionToJson(CustomerTransaction data) =>
+    json.encode(data.toJson());
 
 enum TransactionType {
   deposit,
@@ -25,8 +26,8 @@ enum TransactionType {
   static TransactionType fromJson(String json) => values.byName(json);
 }
 
-class Transaction {
-  Transaction({
+class CustomerTransaction {
+  CustomerTransaction({
     int? id,
     TransactionType? type,
     num? amount,
@@ -38,7 +39,7 @@ class Transaction {
     _username = username;
   }
 
-  Transaction.fromJson(dynamic json) {
+  CustomerTransaction.fromJson(dynamic json) {
     _id = json['id'];
     _type = TransactionType.fromJson(json['type']);
     _amount = json['amount'];
@@ -50,13 +51,13 @@ class Transaction {
   num? _amount;
   String? _username;
 
-  Transaction copyWith({
+  CustomerTransaction copyWith({
     int? id,
     TransactionType? type,
     num? amount,
     String? username,
   }) =>
-      Transaction(
+      CustomerTransaction(
         id: id ?? _id,
         type: type ?? _type,
         amount: amount ?? _amount,

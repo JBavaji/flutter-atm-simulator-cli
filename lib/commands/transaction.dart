@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:args/args.dart';
 
-import '../models/transaction.dart';
+import '../models/customer_transaction.dart';
 import '../repository/bank_data.dart';
 import '../repository/bank_repository_impl.dart';
 import '../util/customer_extenstion.dart';
