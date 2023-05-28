@@ -41,8 +41,8 @@ class Customer {
     String? username,
     AccountBalance? balance,
     List<CustomerTransaction>? transaction,
-    List<CustomerTransferAmount>? sent,
-    List<CustomerTransferAmount>? received,
+    List<CustomerOweAmount>? sent,
+    List<CustomerOweAmount>? received,
     bool? loggedIn,
   }) {
     _username = username;
@@ -65,13 +65,13 @@ class Customer {
     if (json['sent'] != null) {
       _sent = [];
       json['sent'].forEach((v) {
-        _sent?.add(CustomerTransferAmount.fromJson(v));
+        _sent?.add(CustomerOweAmount.fromJson(v));
       });
     }
     if (json['received'] != null) {
       _received = [];
       json['received'].forEach((v) {
-        _received?.add(CustomerTransferAmount.fromJson(v));
+        _received?.add(CustomerOweAmount.fromJson(v));
       });
     }
     _loggedIn = json['loggedIn'];
@@ -80,8 +80,8 @@ class Customer {
   String? _username;
   AccountBalance? _balance;
   List<CustomerTransaction>? _transaction;
-  List<CustomerTransferAmount>? _sent;
-  List<CustomerTransferAmount>? _received;
+  List<CustomerOweAmount>? _sent;
+  List<CustomerOweAmount>? _received;
 
   bool? _loggedIn;
 
@@ -91,9 +91,9 @@ class Customer {
 
   List<CustomerTransaction> get transaction => _transaction ?? [];
 
-  List<CustomerTransferAmount> get received => _received ?? [];
+  List<CustomerOweAmount> get received => _received ?? [];
 
-  List<CustomerTransferAmount> get sent => _sent ?? [];
+  List<CustomerOweAmount> get sent => _sent ?? [];
 
   bool? get loggedIn => _loggedIn;
 
@@ -103,11 +103,11 @@ class Customer {
     _transaction = value;
   }
 
-  set setSent(List<CustomerTransferAmount>? value) {
+  set setSent(List<CustomerOweAmount>? value) {
     _sent = value;
   }
 
-  set setReceived(List<CustomerTransferAmount>? value) {
+  set setReceived(List<CustomerOweAmount>? value) {
     _received = value;
   }
 

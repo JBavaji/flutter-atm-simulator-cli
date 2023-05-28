@@ -1,4 +1,5 @@
 import 'package:flutter_atm_simulator_cli/models/transfer_customer_amount.dart';
+import 'package:flutter_atm_simulator_cli/util/balance_extension.dart';
 
 import '../models/customer_transaction.dart';
 import '../util/customer_operation_extentsion.dart';
@@ -110,13 +111,18 @@ class BankRepositoryImpl extends BankRepository {
 
   @override
   CommandResults deposit(double amount) {
-    data.customer?.balance?.deposit(amount);
+    double depositAmount = transferOwedAmount(amount);
+    if (depositAmount <= 0) {
+      return CommandResults.deposit;
+    }
+
+    data.customer?.balance?.deposit(depositAmount);
 
     data.customer?.transaction.add(
       CustomerTransaction.usingCustomer(
         data.customer,
         TransactionType.deposit,
-        amount,
+        depositAmount,
       ),
     );
 
@@ -149,7 +155,7 @@ class BankRepositoryImpl extends BankRepository {
       data.customer?.sent[sentToCustomerIndex].amount?.deposit(amount);
     } else {
       data.customer?.sent.add(
-        CustomerTransferAmount(
+        CustomerOweAmount(
           username: toCustomer.username,
           amount: AccountBalance(amount),
         ),
@@ -170,7 +176,7 @@ class BankRepositoryImpl extends BankRepository {
       toCustomer.received[receivedToCustomerIndex].amount?.deposit(amount);
     } else {
       toCustomer.received.add(
-        CustomerTransferAmount(
+        CustomerOweAmount(
           username: data.customer?.username,
           amount: AccountBalance(amount),
         ),
@@ -191,5 +197,44 @@ class BankRepositoryImpl extends BankRepository {
 
     saveActivity();
     return CommandResults.transaction;
+  }
+
+  double transferOwedAmount(double amount) {
+    if (data.customer!.received.isNotEmpty) {
+      CustomerOweAmount? owedAmount;
+
+      int owedAmountIndex = data.customer!.received
+          .indexWhere((element) => amount.canWithdraw(element.amount!.balance));
+
+      if (owedAmountIndex != -1) {
+        owedAmount = data.customer!.received.elementAt(owedAmountIndex);
+        data.customer!.received.removeAt(owedAmountIndex);
+
+        int owedCustomerIndex = data.customers.indexWhere(
+            (customer) => customer.username == owedAmount?.username);
+        if (owedCustomerIndex != -1) {
+          Customer owedCustomer = data.customers.elementAt(owedCustomerIndex);
+          owedCustomer.sent.removeWhere(
+              (element) => element.username == data.customer?.username);
+
+          owedCustomer.balance?.deposit(owedAmount.amount!.balance);
+
+          owedCustomer.transaction.add(
+            CustomerTransaction.usingCustomer(
+              owedCustomer,
+              TransactionType.sent,
+              amount,
+            ),
+          );
+
+          amount = amount - owedAmount.amount!.balance;
+
+          /// Save local toCustomer transaction changes in
+          /// banking data before save the user activity
+          data.customers[owedCustomerIndex] = owedCustomer;
+        }
+      }
+    }
+    return amount;
   }
 }
