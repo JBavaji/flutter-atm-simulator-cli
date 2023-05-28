@@ -236,7 +236,7 @@ class BankRepositoryImpl extends BankRepository {
           data.customers[owedCustomerIndex] = owedCustomer;
 
           stdout.writeln(
-              'Transferred ${owedAmount.amount!.balance.toString()} to ${owedCustomer.username}');
+              'Transferred ${AccountBalance(owedAmount.amount!.balance).toString()} to ${owedCustomer.username}');
         }
       }
     }
