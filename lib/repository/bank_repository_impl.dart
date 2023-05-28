@@ -126,7 +126,9 @@ class BankRepositoryImpl extends BankRepository {
 
   @override
   CommandResults transfer(double amount, String username) {
-    if (data.customer!.haveEnoughBalance(amount) == false) {
+    if (data.customer!.haveEnoughBalance(amount)) {
+      data.customer?.balance?.withdraw(amount);
+    } else {
       return CommandResults.notEnoughBalance;
     }
 
