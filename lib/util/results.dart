@@ -5,7 +5,8 @@ enum CommandResults {
   alreadyLogout,
   logout,
   transaction,
-  transfer,
+  deposit,
+  withdraw,
   customerNotExists,
   notEnoughBalance,
   save;

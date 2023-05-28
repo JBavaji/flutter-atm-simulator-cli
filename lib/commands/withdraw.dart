@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:args/args.dart';
 
-import '../models/customer_transaction.dart';
 import '../repository/bank_data.dart';
 import '../repository/bank_repository_impl.dart';
 import '../util/customer_extenstion.dart';
@@ -9,18 +8,17 @@ import '../util/error_message_extenstion.dart';
 import '../util/results.dart';
 import 'command.dart';
 
-class TransactionCommand extends Command {
+class WithdrawCommand extends Command {
   /// The [name] of the command. But static.
-  static const String commandDeposit = 'deposit';
   static const String commandWithdraw = 'withdraw';
   static const String optionAmount = 'amount';
 
   @override
-  String get name => commandDeposit;
+  String get name => commandWithdraw;
 
   @override
   String get description =>
-      "Deposit amount in user account and add transaction record.";
+      "Withdraw amount in user account and add transaction record.";
 
   BankRepositoryImpl repositoryImpl = BankRepositoryImpl();
   BankData data = BankData.instance;
@@ -33,27 +31,30 @@ class TransactionCommand extends Command {
     }
 
     String amount = results[optionAmount] ?? '';
-    TransactionType transactionType = results.command?.name == commandDeposit
-        ? TransactionType.deposit
-        : TransactionType.withdraw;
 
     if (amount.isEmpty) {
       stdout.writeln('Amount:');
       amount = stdin.readLineSync() ?? "";
     }
-
+    double amountValue = -1;
     try {
-      double amountValue = double.parse(amount);
-      CommandResults result =
-          repositoryImpl.transaction(amountValue, transactionType);
+      amountValue = double.parse(amount);
 
-      if (result == CommandResults.transaction) {
-        stdout.writeln('${data.customer?.transactionBalance}');
-      } else {
-        stdout.writeln('${data.customer?.notEnoughBalance}');
+      if (amountValue < 0) {
+        stdout.writeln("".negativeNumber);
+        return;
       }
-    } on Exception catch (err) {
-      stdout.writeln('Invalid amount entered, Number exception occurred');
+    } on Exception {
+      stdout.writeln("".invalidNumber);
+      return;
+    }
+
+    CommandResults result = repositoryImpl.withdraw(amountValue);
+
+    if (result == CommandResults.notEnoughBalance) {
+      stdout.writeln('${data.customer?.notEnoughBalance}');
+    } else {
+      stdout.writeln('${data.customer?.transactionBalance}');
     }
   }
 }

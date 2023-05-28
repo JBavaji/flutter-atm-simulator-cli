@@ -89,23 +89,39 @@ class BankRepositoryImpl extends BankRepository {
   }
 
   @override
-  CommandResults transaction(double amount, TransactionType type) {
-    if (type == TransactionType.deposit) {
-      data.customer?.balance?.deposit(amount);
+  CommandResults withdraw(double amount) {
+    if (data.customer!.haveEnoughBalance(amount)) {
+      data.customer?.balance?.withdraw(amount);
     } else {
-      if (data.customer!.haveEnoughBalance(amount)) {
-        data.customer?.balance?.withdraw(amount);
-      } else {
-        return CommandResults.notEnoughBalance;
-      }
+      return CommandResults.notEnoughBalance;
     }
 
     data.customer?.transaction.add(
-      CustomerTransaction.usingCustomer(data.customer, type, amount),
+      CustomerTransaction.usingCustomer(
+        data.customer,
+        TransactionType.withdraw,
+        amount,
+      ),
     );
 
     saveActivity();
-    return CommandResults.transaction;
+    return CommandResults.withdraw;
+  }
+
+  @override
+  CommandResults deposit(double amount) {
+    data.customer?.balance?.deposit(amount);
+
+    data.customer?.transaction.add(
+      CustomerTransaction.usingCustomer(
+        data.customer,
+        TransactionType.deposit,
+        amount,
+      ),
+    );
+
+    saveActivity();
+    return CommandResults.deposit;
   }
 
   @override
@@ -172,6 +188,6 @@ class BankRepositoryImpl extends BankRepository {
     data.customers[indexToCustomerFound] = toCustomer;
 
     saveActivity();
-    return CommandResults.transfer;
+    return CommandResults.transaction;
   }
 }

@@ -22,9 +22,9 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
       ..addCommand(HelpCommand.commandHelp)
       ..addCommand(LoginCommand.commandLogin)
       ..addOption(LoginCommand.optionUserName)
-      ..addCommand(TransactionCommand.commandDeposit)
-      ..addCommand(TransactionCommand.commandWithdraw)
-      ..addOption(TransactionCommand.optionAmount)
+      ..addCommand(DepositCommand.commandDeposit)
+      ..addCommand(WithdrawCommand.commandWithdraw)
+      ..addOption(DepositCommand.optionAmount)
       ..addCommand(StatementCommand.commandStatement)
       ..addOption(StatementCommand.optionType)
       ..addCommand(TransferCommand.commandTransfer)
@@ -34,8 +34,8 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
       final argResults = parser.parse(args);
       CommandExecutor().commandArgumentExecuteResult(argResults);
     } on Exception catch (e) {
-      print(e.toString());
-      print("Run 'help' command to get more help.");
+      stdout.writeln(e.toString());
+      stdout.writeln("Run 'help' command to get more help.");
     }
 
     return exit(0);

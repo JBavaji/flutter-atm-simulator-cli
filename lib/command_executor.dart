@@ -15,9 +15,12 @@ class CommandExecutor {
           LoginCommand().execute(argResults);
           return;
 
-        case TransactionCommand.commandDeposit:
-        case TransactionCommand.commandWithdraw:
-          TransactionCommand().execute(argResults);
+        case DepositCommand.commandDeposit:
+          DepositCommand().execute(argResults);
+          return;
+
+        case WithdrawCommand.commandWithdraw:
+          WithdrawCommand().execute(argResults);
           return;
 
         case StatementCommand.commandStatement:
