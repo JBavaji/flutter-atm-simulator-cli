@@ -20,6 +20,10 @@ class CommandExecutor {
           TransactionCommand().execute(argResults);
           return;
 
+        case StatementCommand.commandStatement:
+          StatementCommand().execute(argResults);
+          return;
+
         case LogoutCommand.commandLogout:
           LogoutCommand().execute(argResults);
           return;

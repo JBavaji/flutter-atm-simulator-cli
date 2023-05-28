@@ -1,3 +1,5 @@
+import 'package:flutter_atm_simulator_cli/models/customer_transaction.dart';
+
 import '../models/customer.dart';
 
 extension CustomerMessages on Customer {
@@ -20,6 +22,20 @@ extension CustomerMessages on Customer {
       int id = transaction[count - 1].id as int;
       return ++id;
     }
+  }
+
+  String statement() {
+    var prompt = StringBuffer();
+
+    if (transaction.isEmpty) {
+      prompt.writeln('No transactions found');
+    } else {
+      for (CustomerTransaction element in transaction) {
+        prompt.writeln(element.toString());
+      }
+    }
+
+    return prompt.toString();
   }
 }
 

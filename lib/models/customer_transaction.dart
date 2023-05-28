@@ -84,4 +84,9 @@ class CustomerTransaction {
       "username": username,
     };
   }
+
+  @override
+  String toString() {
+    return "You ${type?.name} amount \$$amount}";
+  }
 }
