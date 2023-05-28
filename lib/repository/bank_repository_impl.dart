@@ -1,7 +1,7 @@
 import 'package:flutter_atm_simulator_cli/models/transfer_customer_amount.dart';
 
 import '../models/customer_transaction.dart';
-import '../util/customer_extenstion.dart';
+import '../util/customer_operation_extentsion.dart';
 import '../models/account_balance.dart';
 import '../models/customer.dart';
 import '../models/customers.dart';
@@ -93,21 +93,16 @@ class BankRepositoryImpl extends BankRepository {
     if (type == TransactionType.deposit) {
       data.customer?.balance?.deposit(amount);
     } else {
-      if (data.customer!.balance!.enoughBalance(amount)) {
+      if (data.customer!.haveEnoughBalance(amount)) {
         data.customer?.balance?.withdraw(amount);
       } else {
         return CommandResults.notEnoughBalance;
       }
     }
 
-    CustomerTransaction transaction = CustomerTransaction(
-      id: data.customer?.incrementedId(),
-      username: data.customer?.username,
-      amount: amount,
-      type: type,
+    data.customer?.transaction.add(
+      CustomerTransaction.usingCustomer(data.customer, type, amount),
     );
-
-    data.customer?.transaction.add(transaction);
 
     saveActivity();
     return CommandResults.transaction;
@@ -115,9 +110,7 @@ class BankRepositoryImpl extends BankRepository {
 
   @override
   CommandResults transfer(double amount, String username) {
-    if (data.customer!.balance!.enoughBalance(amount)) {
-      data.customer?.balance?.withdraw(amount);
-    } else {
+    if (data.customer!.haveEnoughBalance(amount) == false) {
       return CommandResults.notEnoughBalance;
     }
 
@@ -129,13 +122,6 @@ class BankRepositoryImpl extends BankRepository {
 
     Customer toCustomer = data.customers[indexToCustomerFound];
 
-    CustomerTransaction loggedInTransaction = CustomerTransaction(
-      id: data.customer?.incrementedId(),
-      username: toCustomer.username,
-      amount: amount,
-      type: TransactionType.sent,
-    );
-
     int sentToCustomerIndex = data.customer?.sent.indexWhere(
           (element) => element.username == toCustomer.username,
         ) ??
@@ -144,35 +130,42 @@ class BankRepositoryImpl extends BankRepository {
     if (sentToCustomerIndex > -1) {
       data.customer?.sent[sentToCustomerIndex].amount?.deposit(amount);
     } else {
-      CustomerTransferAmount transferAmount = CustomerTransferAmount(
-        username: toCustomer.username,
-        amount: AccountBalance(amount),
+      data.customer?.sent.add(
+        CustomerTransferAmount(
+          username: toCustomer.username,
+          amount: AccountBalance(amount),
+        ),
       );
-      data.customer?.sent.add(transferAmount);
     }
-    data.customer?.transaction.add(loggedInTransaction);
+    data.customer?.transaction.add(CustomerTransaction(
+      id: data.customer?.incrementedId(),
+      username: toCustomer.username,
+      amount: amount,
+      type: TransactionType.sent,
+    ));
 
     toCustomer.balance?.deposit(amount);
-    CustomerTransaction toCustomerTransaction = CustomerTransaction(
-      id: toCustomer.incrementedId(),
-      username: data.customer?.username,
-      amount: amount,
-      type: TransactionType.received,
-    );
-    int receivedToCustomerIndex = toCustomer.received.indexWhere(
-      (element) => element.username == data.customer?.username,
-    );
+    int receivedToCustomerIndex =
+        toCustomer.findUserFromReceived(data.customer?.username);
 
     if (receivedToCustomerIndex > -1) {
       toCustomer.received[receivedToCustomerIndex].amount?.deposit(amount);
     } else {
-      CustomerTransferAmount transferAmount = CustomerTransferAmount(
-        username: data.customer?.username,
-        amount: AccountBalance(amount),
+      toCustomer.received.add(
+        CustomerTransferAmount(
+          username: data.customer?.username,
+          amount: AccountBalance(amount),
+        ),
       );
-      toCustomer.received.add(transferAmount);
     }
-    toCustomer.transaction.add(toCustomerTransaction);
+    toCustomer.transaction.add(
+      CustomerTransaction(
+        id: toCustomer.incrementedId(),
+        username: data.customer?.username,
+        amount: amount,
+        type: TransactionType.received,
+      ),
+    );
 
     /// Save local toCustomer transaction changes in
     /// banking data before save the user activity

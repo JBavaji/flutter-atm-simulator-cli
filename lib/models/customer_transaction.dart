@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter_atm_simulator_cli/models/customer.dart';
+import 'package:flutter_atm_simulator_cli/util/customer_operation_extentsion.dart';
+
 /*
     Sample transaction
 
@@ -53,18 +56,16 @@ class CustomerTransaction {
   num? _amount;
   String? _username;
 
-  CustomerTransaction copyWith({
-    int? id,
+  CustomerTransaction.usingCustomer(
+    Customer? customer,
     TransactionType? type,
     num? amount,
-    String? username,
-  }) =>
-      CustomerTransaction(
-        id: id ?? _id,
-        type: type ?? _type,
-        amount: amount ?? _amount,
-        username: username ?? _username,
-      );
+  ) {
+    _id = customer?.incrementedId() ?? _id;
+    _type = type ?? _type;
+    _amount = amount ?? _amount;
+    _username = customer?.username ?? _username;
+  }
 
   int? get id => _id;
 

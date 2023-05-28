@@ -5,6 +5,7 @@ import '../models/customer_transaction.dart';
 import '../repository/bank_data.dart';
 import '../repository/bank_repository_impl.dart';
 import '../util/customer_extenstion.dart';
+import '../util/error_message_extenstion.dart';
 import '../util/results.dart';
 import 'command.dart';
 
