@@ -9,9 +9,7 @@ very_good create flutter_app my_app
 
 # help
 ~ dart run bin/main.dart help 
-<img width="503" alt="image" src="https://github.com/JBavaji/flutter-atm-simulator-cli/assets/46149277/fc6c9513-1c15-49dc-bebc-a6e0439c85d1">
-
-
+<img width="493" alt="Screenshot 2023-05-29 at 3 06 35 AM" src="https://github.com/JBavaji/flutter-atm-simulator-cli/assets/46149277/3cb15cda-0735-4611-8c17-3813faa3c345">
 ```
 
 ## Notes
