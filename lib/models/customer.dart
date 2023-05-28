@@ -38,7 +38,7 @@ class Customer {
 
   Customer.fromJson(Map<String, dynamic> json) {
     _username = json['username'];
-    _balance = AccountBalance((json['balance']));
+    _balance = AccountBalance(json['balance'] as double);
     if (json['transaction'] != null) {
       _transaction = [];
       json['transaction'].forEach((v) {
@@ -70,17 +70,22 @@ class Customer {
 
   AccountBalance? get balance => _balance;
 
-  List<Transaction>? get transaction => _transaction;
+  List<Transaction> get transaction => _transaction ?? [];
 
   bool? get loggedIn => _loggedIn;
 
   set setLoggedIn(bool? value) => _loggedIn = value;
 
+  set setTransaction(List<Transaction>? value) {
+    _transaction = value;
+  }
+
   Map<String, dynamic> toJson() {
     return {
-    "username": username,
-    "balance": balance?.balance,
-    "loggedIn" : loggedIn,
-    "transaction": transaction?.map((v) => v.toJson()).toList()
-  };}
+      "username": username,
+      "balance": balance?.balance,
+      "loggedIn": loggedIn,
+      "transaction": transaction.map((v) => v.toJson()).toList()
+    };
+  }
 }

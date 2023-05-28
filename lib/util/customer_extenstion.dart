@@ -9,6 +9,16 @@ extension CustomerMessages on Customer {
 
   String get continueTransaction =>
       'You can continue transaction with existing $username';
+
+  int incrementedId() {
+    int count = transaction.length;
+    if (count == 0) {
+      return 1;
+    } else {
+      int id = transaction[count - 1].id as int;
+      return ++id;
+    }
+  }
 }
 
 extension NoCustomer on String {

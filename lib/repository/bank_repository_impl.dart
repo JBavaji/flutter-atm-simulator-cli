@@ -1,3 +1,6 @@
+import 'package:flutter_atm_simulator_cli/models/transaction.dart';
+import 'package:flutter_atm_simulator_cli/util/customer_extenstion.dart';
+
 import '../models/account_balance.dart';
 import '../models/customer.dart';
 import '../models/customers.dart';
@@ -72,7 +75,9 @@ class BankRepositoryImpl extends BankRepository {
   CommandResults saveActivity() {
     int indexFound = data.customers
         .indexWhere((customer) => customer.username == data.customer?.username);
-    data.customers[indexFound] = data.customer!;
+    if (indexFound > -1) {
+      data.customers[indexFound] = data.customer!;
+    }
 
     String customersString = customersToString(data.customers);
     saveData(customersString);
@@ -85,6 +90,15 @@ class BankRepositoryImpl extends BankRepository {
   @override
   CommandResults deposit(double amount) {
     data.customer?.balance?.deposit(amount);
+
+    Transaction transaction = Transaction(
+      id: data.customer?.incrementedId(),
+      username: data.customer?.username,
+      amount: amount,
+      type: TransactionType.deposit,
+    );
+
+    data.customer?.transaction.add(transaction);
 
     saveActivity();
     return CommandResults.deposit;
