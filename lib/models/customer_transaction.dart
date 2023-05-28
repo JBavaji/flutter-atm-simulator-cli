@@ -90,6 +90,12 @@ class CustomerTransaction {
 
   @override
   String toString() {
-    return "You ${type?.name} amount \$$amount.";
+    if (type == TransactionType.sent) {
+      return "You ${type?.name} amount \$$amount to $username.";
+    } else if (type == TransactionType.received) {
+      return "You ${type?.name} amount \$$amount from $username.";
+    } else {
+      return "You ${type?.name} amount \$$amount.";
+    }
   }
 }
