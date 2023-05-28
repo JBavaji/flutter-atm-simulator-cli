@@ -1,7 +1,24 @@
 # Flutter ATM Simulator CLI
 A flutter Banking process ATM interaction Simulator with Banking system as custmer using Command Line Interface.
 
-#### Usage
+## Commands
+
+* `login [username]` - Logs in or this create as this customer
+
+* `deposit [amount]` - Deposit this amount to the logged in customer
+
+* `withdraw [amount]` - Withdraw this amount from the logged in customer
+
+* `transfer [target] [amount]` - Transfer this amount to user from the logged in customer to target customer.
+
+* `statement [type]` - List out the current customer transaction.
+
+* `logout` - Logs out of the current customer
+
+* `help` - To understanding supported command and how to use?.
+
+
+## Application usage simulate
 
 ```sh
 # login [Login existing or Create new user as customer]
@@ -165,14 +182,6 @@ Open terminal with project root folder
 
 ```bash
 > dart run bin/main.dart [command --args value]
-```
-
-### Help
-
-To see all available commands use:
-
-```bash
-> dart run bin/main.dart help 
 ```
 
 ### Some development points
