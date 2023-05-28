@@ -1,6 +1,5 @@
-import 'package:flutter_atm_simulator_cli/models/transaction.dart';
-import 'package:flutter_atm_simulator_cli/util/customer_extenstion.dart';
-
+import '../models/transaction.dart';
+import '../util/customer_extenstion.dart';
 import '../models/account_balance.dart';
 import '../models/customer.dart';
 import '../models/customers.dart';
@@ -88,19 +87,27 @@ class BankRepositoryImpl extends BankRepository {
   }
 
   @override
-  CommandResults deposit(double amount) {
-    data.customer?.balance?.deposit(amount);
+  CommandResults transaction(double amount, TransactionType type) {
+    if (type == TransactionType.deposit) {
+      data.customer?.balance?.deposit(amount);
+    } else {
+      if (data.customer!.balance!.enoughBalance(amount)) {
+        data.customer?.balance?.withdraw(amount);
+      } else {
+        return CommandResults.notEnoughBalance;
+      }
+    }
 
     Transaction transaction = Transaction(
       id: data.customer?.incrementedId(),
       username: data.customer?.username,
       amount: amount,
-      type: TransactionType.deposit,
+      type: type,
     );
 
     data.customer?.transaction.add(transaction);
 
     saveActivity();
-    return CommandResults.deposit;
+    return CommandResults.transaction;
   }
 }

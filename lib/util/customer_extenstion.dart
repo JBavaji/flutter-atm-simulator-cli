@@ -1,14 +1,16 @@
 import '../models/customer.dart';
 
 extension CustomerMessages on Customer {
-  String get welcome => "Hello, $username!\n$deposit";
+  String get welcome => "Hello, $username!\n$transactionBalance";
 
-  String get deposit => "Your balance is ${balance.toString()}";
+  String get transactionBalance => "Your balance is ${balance.toString()}";
 
   String get goodBye => "Goodbye, $username!";
 
   String get continueTransaction =>
       'You can continue transaction with existing $username';
+
+  get notEnoughBalance => "You don't have enough balance.\n$transactionBalance";
 
   int incrementedId() {
     int count = transaction.length;

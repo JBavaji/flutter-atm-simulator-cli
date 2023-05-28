@@ -21,11 +21,16 @@ class AccountBalance {
     return balance;
   }
 
+  bool enoughBalance(amount) {
+    return balance.canWithdraw(amount);
+  }
+
   void withdraw(double amount) {
-    if ((balance - amount) < 0) {
+    if (enoughBalance(amount)) {
+      balance = balance.withdraw(amount);
+    } else {
       throw Exception("Not enough balance");
     }
-    balance = balance.withdraw(amount);
   }
 
   @override

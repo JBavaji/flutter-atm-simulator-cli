@@ -1,3 +1,4 @@
+import '../models/transaction.dart';
 import '../util/results.dart';
 
 abstract class BankRepository {
@@ -7,5 +8,5 @@ abstract class BankRepository {
 
   CommandResults saveActivity();
 
-  CommandResults deposit(double amount);
+  CommandResults transaction(double amount, TransactionType type);
 }

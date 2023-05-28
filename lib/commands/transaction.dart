@@ -1,16 +1,17 @@
 import 'dart:io';
-
 import 'package:args/args.dart';
 
+import '../models/transaction.dart';
 import '../repository/bank_data.dart';
 import '../repository/bank_repository_impl.dart';
 import '../util/customer_extenstion.dart';
 import '../util/results.dart';
 import 'command.dart';
 
-class DepositCommand extends Command {
+class TransactionCommand extends Command {
   /// The [name] of the command. But static.
   static const String commandDeposit = 'deposit';
+  static const String commandWithdraw = 'withdraw';
   static const String optionAmount = 'amount';
 
   @override
@@ -25,24 +26,30 @@ class DepositCommand extends Command {
 
   @override
   execute(ArgResults results) {
-    String amount = results[optionAmount] ?? '';
-
     if (!data.loggedIn) {
       stdout.writeln("".noCustomerLogged);
       return;
     }
 
+    String amount = results[optionAmount] ?? '';
+    TransactionType transactionType = results.command?.name == commandDeposit
+        ? TransactionType.deposit
+        : TransactionType.withdraw;
+
     if (amount.isEmpty) {
-      stdout.writeln('Deposit amount missing:');
+      stdout.writeln('Amount:');
       amount = stdin.readLineSync() ?? "";
     }
 
     try {
       double amountValue = double.parse(amount);
-      CommandResults result = repositoryImpl.deposit(amountValue);
+      CommandResults result =
+          repositoryImpl.transaction(amountValue, transactionType);
 
-      if (result == CommandResults.deposit) {
-        stdout.writeln('${data.customer?.deposit}');
+      if (result == CommandResults.transaction) {
+        stdout.writeln('${data.customer?.transactionBalance}');
+      } else {
+        stdout.writeln('${data.customer?.notEnoughBalance}');
       }
     } on Exception catch (err) {
       stdout.writeln('Invalid amount entered, Number exception occurred');
