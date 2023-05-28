@@ -9,4 +9,6 @@ abstract class BankRepository {
   CommandResults saveActivity();
 
   CommandResults transaction(double amount, TransactionType type);
+
+  CommandResults transfer(double amount, String username);
 }

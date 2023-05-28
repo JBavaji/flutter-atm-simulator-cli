@@ -110,4 +110,15 @@ class BankRepositoryImpl extends BankRepository {
     saveActivity();
     return CommandResults.transaction;
   }
+
+  @override
+  CommandResults transfer(double amount, String username) {
+    int indexFound =
+        data.customers.indexWhere((customer) => customer.username == username);
+    if (indexFound < 0) {
+      return CommandResults.customerNotExists;
+    }
+
+    return CommandResults.transfer;
+  }
 }

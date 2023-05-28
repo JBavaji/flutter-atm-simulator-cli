@@ -24,6 +24,10 @@ class CommandExecutor {
           StatementCommand().execute(argResults);
           return;
 
+        case TransferCommand.commandTransfer:
+          TransferCommand().execute(argResults);
+          return;
+
         case LogoutCommand.commandLogout:
           LogoutCommand().execute(argResults);
           return;

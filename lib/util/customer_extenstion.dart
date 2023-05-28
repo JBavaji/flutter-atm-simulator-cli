@@ -12,6 +12,8 @@ extension CustomerMessages on Customer {
   String get continueTransaction =>
       'You can continue transaction with existing $username';
 
+  String get selfTransferNotValid => 'You can not transfer to your own account';
+
   get notEnoughBalance => "You don't have enough balance.\n$transactionBalance";
 
   int incrementedId() {
@@ -48,5 +50,7 @@ extension CustomerMessages on Customer {
 }
 
 extension NoCustomer on String {
-  String get noCustomerLogged => "No logged customer found";
+  String get noCustomerLogged => "No logged customer.";
+
+  String get noCustomerFound => "No customer found with username";
 }

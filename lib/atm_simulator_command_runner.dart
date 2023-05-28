@@ -27,6 +27,7 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
       ..addOption(TransactionCommand.optionAmount)
       ..addCommand(StatementCommand.commandStatement)
       ..addOption(StatementCommand.optionType)
+      ..addCommand(TransferCommand.commandTransfer)
       ..addCommand(LogoutCommand.commandLogout);
 
     try {

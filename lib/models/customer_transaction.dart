@@ -19,7 +19,9 @@ String transactionToJson(CustomerTransaction data) =>
 
 enum TransactionType {
   deposit,
-  withdraw;
+  withdraw,
+  sent,
+  received;
 
   String toJson() => name;
 
