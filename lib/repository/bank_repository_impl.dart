@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_atm_simulator_cli/models/transfer_customer_amount.dart';
 import 'package:flutter_atm_simulator_cli/util/balance_extension.dart';
 
@@ -232,6 +234,9 @@ class BankRepositoryImpl extends BankRepository {
           /// Save local toCustomer transaction changes in
           /// banking data before save the user activity
           data.customers[owedCustomerIndex] = owedCustomer;
+
+          stdout.writeln(
+              'Transferred ${owedAmount.amount!.balance.toString()} to ${owedCustomer.username}');
         }
       }
     }
