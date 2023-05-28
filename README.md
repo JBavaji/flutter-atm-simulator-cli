@@ -4,12 +4,23 @@ A flutter Banking process ATM interaction Simulator with Banking system as custm
 #### Usage
 
 ```sh
-# Create a new Flutter app named my_app
-very_good create flutter_app my_app
+# login 
+~ dart run bin/main.dart login --username JBAVAJI
+
+Hello, JBAVAJI! 
+Your balance is $0.0
+
+# deposit
+~  dart run bin/main.dart deposit --amount 100
+Your balance is $100.0
+
+# logout
+~ dart run bin/main.dart logout
+Goodbye, JBAVAJI!  
 
 # help
 ~ dart run bin/main.dart help 
-<img width="493" alt="Screenshot 2023-05-29 at 3 06 35 AM" src="https://github.com/JBavaji/flutter-atm-simulator-cli/assets/46149277/3cb15cda-0735-4611-8c17-3813faa3c345">
+![](../../../Desktop/Screenshot 2023-05-29 at 3.06.35 AM.png)
 ```
 
 ## Notes
