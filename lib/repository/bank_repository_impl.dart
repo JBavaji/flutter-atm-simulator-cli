@@ -1,3 +1,5 @@
+import 'package:flutter_atm_simulator_cli/models/transfer_customer_amount.dart';
+
 import '../models/customer_transaction.dart';
 import '../util/customer_extenstion.dart';
 import '../models/account_balance.dart';
@@ -119,6 +121,37 @@ class BankRepositoryImpl extends BankRepository {
       return CommandResults.customerNotExists;
     }
 
+    Customer toCustomer = data.customers[indexFound];
+    data.customer?.balance?.withdraw(amount);
+
+    CustomerTransaction loggedInTransaction = CustomerTransaction(
+      id: data.customer?.incrementedId(),
+      username: toCustomer.username,
+      amount: amount,
+      type: TransactionType.sent,
+    );
+    CustomerTransferAmount transferAmount = CustomerTransferAmount(
+      username: toCustomer.username,
+      amount: amount,
+    );
+    data.customer?.sent.add(transferAmount);
+    data.customer?.transaction.add(loggedInTransaction);
+ 
+    toCustomer.balance?.deposit(amount);
+    CustomerTransaction toCustomerTransaction = CustomerTransaction(
+      id: toCustomer.incrementedId(),
+      username: data.customer?.username,
+      amount: amount,
+      type: TransactionType.received,
+    );
+    toCustomer.received.add(transferAmount);
+    toCustomer.transaction.add(toCustomerTransaction);
+
+    /// Save local toCustomer transaction changes in
+    /// banking data before save the user activity
+    data.customers[indexFound] = toCustomer;
+
+    saveActivity();
     return CommandResults.transfer;
   }
 }

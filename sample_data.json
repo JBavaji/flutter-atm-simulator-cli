@@ -2,6 +2,13 @@
   {
     "username": "jbavaji",
     "balance": 40,
+    "sent": [],
+    "received": [
+      {
+        "amount": 20.0,
+        "username": "jbavaji"
+      }
+    ],
     "transaction": [
       {
         "id": 1,
@@ -26,6 +33,18 @@
   {
     "username": "jayeshgiri",
     "balance": 15,
+    "sent": [
+      {
+        "amount": 20.0,
+        "username": "jbavaji"
+      }
+    ],
+    "received": [
+      {
+        "username": "jack",
+        "amount": 40
+      }
+    ],
     "transaction": [
       {
         "id": 1,
@@ -44,6 +63,50 @@
         "type": "transfer",
         "amount": 30,
         "username": "jbavaji"
+      },
+      {
+        "id": 4,
+        "type": "transfer",
+        "amount": 20,
+        "username": "jack"
+      },
+      {
+        "id": 5,
+        "type": "transfer",
+        "amount": 50,
+        "username": "jbavaji"
+      },
+      {
+        "id": 6,
+        "type": "transfer",
+        "amount": 20,
+        "username": "jack"
+      }
+    ]
+  },
+  {
+    "username": "jack",
+    "balance": 40,
+    "sent": [],
+    "received": [],
+    "transaction": [
+      {
+        "id": 1,
+        "type": "deposit",
+        "amount": 100,
+        "username": "jbavaji"
+      },
+      {
+        "id": 2,
+        "type": "withdraw",
+        "amount": 40,
+        "username": "jbavaji"
+      },
+      {
+        "id": 3,
+        "type": "transfer",
+        "amount": 20,
+        "username": "jayeshgiri"
       }
     ]
   }
