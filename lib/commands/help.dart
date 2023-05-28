@@ -25,11 +25,17 @@ class HelpCommand extends Command {
       ..writeln()
       ..writeln()
       ..writeln(
-          'login [--username @@@] - Logs in as this customer and creates the customer if not exist')
+          'login [--username @@@] - Logs in as this customer. and creates the customer if not exist')
       ..writeln(
           'deposit [--amount \$\$\$] - Deposits this amount to the logged in customer')
       ..writeln(
           'withdraw [--amount \$\$\$] - Withdraws this amount from the logged in customer')
+      ..writeln(
+          'statement [--type mini/all]- Print of the current customer transaction.')
+      ..writeln(
+          'statement [--type mini] - Most recent 1o transactions of current customer.')
+      ..writeln(
+          'statement [--type all] - All transactions of current customer.')
       ..writeln('logout - Logs out of the current customer')
       ..writeln('help - Get help for supported command to use ATM simulator')
       ..writeln()

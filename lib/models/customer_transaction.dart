@@ -87,6 +87,6 @@ class CustomerTransaction {
 
   @override
   String toString() {
-    return "You ${type?.name} amount \$$amount}";
+    return "You ${type?.name} amount \$$amount.";
   }
 }

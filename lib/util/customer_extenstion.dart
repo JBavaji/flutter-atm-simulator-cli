@@ -1,5 +1,5 @@
-import 'package:flutter_atm_simulator_cli/models/customer_transaction.dart';
-
+import '../commands/statement.dart';
+import '../models/customer_transaction.dart';
 import '../models/customer.dart';
 
 extension CustomerMessages on Customer {
@@ -24,13 +24,21 @@ extension CustomerMessages on Customer {
     }
   }
 
-  String statement() {
+  String statement(String? type) {
     var prompt = StringBuffer();
 
     if (transaction.isEmpty) {
       prompt.writeln('No transactions found');
     } else {
-      for (CustomerTransaction element in transaction) {
+      List<CustomerTransaction> transactions = transaction.reversed.toList();
+
+      if (type == StatementCommand.typeMini) {
+        transactions = transactions.sublist(0, 3);
+      }
+
+      prompt.writeln();
+      prompt.writeln('Your transactions:');
+      for (CustomerTransaction element in transactions) {
         prompt.writeln(element.toString());
       }
     }
