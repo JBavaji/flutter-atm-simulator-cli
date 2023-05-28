@@ -19,30 +19,40 @@ class HelpCommand extends Command {
     var content = StringBuffer();
     content
       ..writeln('')
-      ..writeln('+---------------------------------------------------  +')
-      ..writeln('|           Welcome to the ATM Simulate!              |')
-      ..writeln('+---------------------------------------------------  +')
+      ..writeln('+----------------------------------------------------------+')
+      ..writeln('|           Welcome to the ATM Simulate!                   |')
+      ..writeln('+----------------------------------------------------------+')
       ..writeln()
+      ..writeln('login [--username @@@]')
+      ..writeln('Logs in or create as this customer')
       ..writeln()
-      ..writeln(
-          'login [--username @@@] - Logs in as this customer. and creates the customer if not exist')
-      ..writeln(
-          'deposit [--amount \$\$\$] - Deposits this amount to the logged in customer')
-      ..writeln(
-          'withdraw [--amount \$\$\$] - Withdraws this amount from the logged in customer')
-      ..writeln(
-          'statement [--type mini/all]- Print of the current customer transaction.')
-      ..writeln(
-          'statement [--type mini] - Most recent 1o transactions of current customer.')
-      ..writeln(
-          'statement [--type all] - All transactions of current customer.')
-      ..writeln('logout - Logs out of the current customer')
-      ..writeln('help - Get help for supported command to use ATM simulator')
+      ..writeln('deposit [--amount \$\$\$]')
+      ..writeln('Deposit amount to the logged in customer')
       ..writeln()
-      ..writeln('+---------------------------------------------------  +')
-      ..writeln('|           Developer: Jayeshgiri Bavaji              |')
-      ..writeln('| Email: jbavaji@gmail.com | Contact: +91 96018 33544 | ')
-      ..writeln('+---------------------------------------------------  +')
+      ..writeln('withdraw [--amount \$\$\$]')
+      ..writeln('Withdraw amount from the logged in customer')
+      ..writeln()
+      ..writeln('statement [--type mini/all]')
+      ..writeln('Print of the current customer transaction.')
+      ..writeln('[mini] - Most recent 1o transactions of current customer.')
+      ..writeln('[all] - All transactions of current customer.')
+      ..writeln()
+      ..writeln('transfer [--amount \$\$\$ --username @@@] ')
+      ..writeln(
+          'Transfer amount to user from the current customer transaction.')
+      ..writeln()
+      ..writeln('logout')
+      ..writeln('Logs out of the current customer')
+      ..writeln()
+      ..writeln('help')
+      ..writeln('Get help for supported command to use ATM simulator')
+      ..writeln()
+      ..writeln('+----------------------------------------------------------+')
+      ..writeln('|    Developer: Jayeshgiri Bavaji (JBavaji)                |')
+      ..writeln('|    Website: https://jbavaji.github.io                    |')
+      ..writeln('|    Email: jbavaji@gmail.com                              |')
+      ..writeln('|    Contact: +91 96018 33544                              |')
+      ..writeln('+----------------------------------------------------------+')
       ..writeln();
 
     stdout.writeln(content.toString());
