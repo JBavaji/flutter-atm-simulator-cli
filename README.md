@@ -11,12 +11,36 @@ Hello, JBAVAJI!
 Your balance is $0.0
 
 # deposit
-~  dart run bin/main.dart deposit --amount 100
+~ dart run bin/main.dart deposit --amount 100
 Your balance is $100.0
 
 # logout
 ~ dart run bin/main.dart logout
 Goodbye, JBAVAJI!  
+
+# login
+~ dart run bin/main.dart login 
+Username required:
+JBAVAJI
+Hello, JBAVAJI! 
+Your balance is $100.0
+
+#withdraw 
+~ dart run bin/main.dart withdraw --amount 30
+Your balance is $70.0
+
+#statement
+~ dart run bin/main.dart statement
+Hello, JBAVAJI! 
+Your balance is $70.0
+
+Your transactions:
+You withdraw amount $30.0.
+You deposit amount $100.0.
+
+# logout
+~ dart run bin/main.dart logout
+Goodbye, JBAVAJI! 
 
 # help
 ~ dart run bin/main.dart help 
@@ -59,6 +83,18 @@ A data file can be found here `./data.txt`.
 
 Sample customer information can be found here `./sample_data.json`. 
 
+* New user create "Customer" data model
+```bash
+{
+"username": "JBAVAJI",
+"balance": 0.0,
+"loggedIn": true,
+"transaction": [
+],
+"sent": [],
+"received": []
+}
+```
 * Packages used to work with CLI 
  
 https://pub.dev/packages/args
