@@ -1,11 +1,14 @@
-import '../commands/statement.dart';
-import '../models/customer_transaction.dart';
+import '../util/customer_operation_extentsion.dart';
 import '../models/customer.dart';
 
 extension CustomerMessages on Customer {
-  String get welcome => "Hello, $username!\n$transactionBalance";
+  String get welcome => "Hello, $username! \n$transactionBalance";
 
   String get transactionBalance => "Your balance is ${balance.toString()}";
+
+  String get sentBalance => owedFromAmountStatement();
+
+  String get receivedBalance => owedToAmountStatement();
 
   String get goodBye => "Goodbye, $username!";
 

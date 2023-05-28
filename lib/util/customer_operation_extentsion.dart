@@ -44,4 +44,26 @@ extension CustomerOperation on Customer {
       (element) => element.username == username,
     );
   }
+
+  String owedFromAmountStatement() {
+    var prompt = StringBuffer();
+
+    for (var element in sent) {
+      prompt.writeln(
+          'Owed ${element.amount.toString()} from ${element.username}');
+    }
+
+    return prompt.toString();
+  }
+
+  String owedToAmountStatement() {
+    var prompt = StringBuffer();
+
+    for (var element in received) {
+      prompt
+          .writeln('Owed ${element.amount.toString()} to ${element.username}');
+    }
+
+    return prompt.toString();
+  }
 }

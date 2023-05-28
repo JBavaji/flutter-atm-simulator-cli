@@ -58,6 +58,8 @@ class LoginCommand extends Command {
       }
     } else {
       stdout.writeln(data.customer?.welcome);
+      stdout.writeln(data.customer?.sentBalance);
+      stdout.writeln(data.customer?.receivedBalance);
     }
   }
 }
