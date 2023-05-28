@@ -29,9 +29,14 @@ class AtmSimulatorCommandRunner extends CommandRunner<int> {
       ..addOption(StatementCommand.optionType)
       ..addCommand(LogoutCommand.commandLogout);
 
-    final argResults = parser.parse(args);
+    try {
+      final argResults = parser.parse(args);
+      CommandExecutor().commandArgumentExecuteResult(argResults);
+    } on Exception catch (e) {
+      print(e.toString());
+      print("Run 'help' command to get more help.");
+    }
 
-    CommandExecutor().commandArgumentExecuteResult(argResults);
     return exit(0);
   }
 }
