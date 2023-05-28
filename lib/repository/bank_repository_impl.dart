@@ -115,14 +115,18 @@ class BankRepositoryImpl extends BankRepository {
 
   @override
   CommandResults transfer(double amount, String username) {
-    int indexFound =
+    int indexToCustomerFound =
         data.customers.indexWhere((customer) => customer.username == username);
-    if (indexFound < 0) {
+    if (indexToCustomerFound < 0) {
       return CommandResults.customerNotExists;
     }
 
-    Customer toCustomer = data.customers[indexFound];
-    data.customer?.balance?.withdraw(amount);
+    Customer toCustomer = data.customers[indexToCustomerFound];
+    if (data.customer!.balance!.enoughBalance(amount)) {
+      data.customer?.balance?.withdraw(amount);
+    } else {
+      return CommandResults.notEnoughBalance;
+    }
 
     CustomerTransaction loggedInTransaction = CustomerTransaction(
       id: data.customer?.incrementedId(),
@@ -130,13 +134,23 @@ class BankRepositoryImpl extends BankRepository {
       amount: amount,
       type: TransactionType.sent,
     );
-    CustomerTransferAmount transferAmount = CustomerTransferAmount(
-      username: toCustomer.username,
-      amount: amount,
-    );
-    data.customer?.sent.add(transferAmount);
+
+    int sentToCustomerIndex = data.customer?.sent.indexWhere(
+          (element) => element.username == toCustomer.username,
+        ) ??
+        -1;
+
+    if (sentToCustomerIndex > -1) {
+      data.customer?.sent[sentToCustomerIndex].amount?.deposit(amount);
+    } else {
+      CustomerTransferAmount transferAmount = CustomerTransferAmount(
+        username: toCustomer.username,
+        amount: AccountBalance(amount),
+      );
+      data.customer?.sent.add(transferAmount);
+    }
     data.customer?.transaction.add(loggedInTransaction);
- 
+
     toCustomer.balance?.deposit(amount);
     CustomerTransaction toCustomerTransaction = CustomerTransaction(
       id: toCustomer.incrementedId(),
@@ -144,12 +158,24 @@ class BankRepositoryImpl extends BankRepository {
       amount: amount,
       type: TransactionType.received,
     );
-    toCustomer.received.add(transferAmount);
+    int receivedToCustomerIndex = toCustomer.received.indexWhere(
+      (element) => element.username == data.customer?.username,
+    );
+
+    if (receivedToCustomerIndex > -1) {
+      toCustomer.received[receivedToCustomerIndex].amount?.deposit(amount);
+    } else {
+      CustomerTransferAmount transferAmount = CustomerTransferAmount(
+        username: data.customer?.username,
+        amount: AccountBalance(amount),
+      );
+      toCustomer.received.add(transferAmount);
+    }
     toCustomer.transaction.add(toCustomerTransaction);
 
     /// Save local toCustomer transaction changes in
     /// banking data before save the user activity
-    data.customers[indexFound] = toCustomer;
+    data.customers[indexToCustomerFound] = toCustomer;
 
     saveActivity();
     return CommandResults.transfer;

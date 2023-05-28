@@ -9,6 +9,8 @@
 
 import 'dart:convert';
 
+import 'account_balance.dart';
+
 CustomerTransferAmount customerTransferAmountFromJson(String str) =>
     CustomerTransferAmount.fromJson(json.decode(str));
 
@@ -17,7 +19,7 @@ String customerTransferAmountToJson(CustomerTransferAmount data) =>
 
 class CustomerTransferAmount {
   CustomerTransferAmount({
-    num? amount,
+    AccountBalance? amount,
     String? username,
   }) {
     _amount = amount;
@@ -25,15 +27,15 @@ class CustomerTransferAmount {
   }
 
   CustomerTransferAmount.fromJson(dynamic json) {
-    _amount = json['amount'];
+    _amount = AccountBalance(json['amount'] as double);
     _username = json['username'];
   }
 
-  num? _amount;
+  AccountBalance? _amount;
   String? _username;
 
   CustomerTransferAmount copyWith({
-    num? amount,
+    AccountBalance? amount,
     String? username,
   }) =>
       CustomerTransferAmount(
@@ -41,13 +43,13 @@ class CustomerTransferAmount {
         username: username ?? _username,
       );
 
-  num? get amount => _amount;
+  AccountBalance? get amount => _amount;
 
   String? get username => _username;
 
   Map<String, dynamic> toJson() {
     return {
-      "amount": amount,
+      "amount": amount?.balance,
       "username": username,
     };
   }

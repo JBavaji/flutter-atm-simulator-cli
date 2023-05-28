@@ -71,7 +71,7 @@ class TransferCommand extends Command {
       return;
     }
 
-    stdout.writeln('You transferred $amount to $username successfully.');
+    stdout.writeln('You transferred \$$amount to $username.');
     stdout.writeln(data.customer?.transactionBalance);
   }
 }
