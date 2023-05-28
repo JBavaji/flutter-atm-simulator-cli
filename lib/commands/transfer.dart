@@ -50,7 +50,7 @@ class TransferCommand extends Command {
 
     String username = results[optionToUsername] ?? '';
     if (username.isEmpty) {
-      stdout.writeln('Transfer To Username:');
+      stdout.writeln('Username:');
       username = stdin.readLineSync() ?? "";
     }
 
@@ -60,7 +60,7 @@ class TransferCommand extends Command {
     }
 
     if (username.isEmpty) {
-      stdout.writeln('${" ".noCustomerFound} - \"$username\"');
+      stdout.writeln(" ".emptyCustomerUsername);
       return;
     }
 
@@ -68,10 +68,11 @@ class TransferCommand extends Command {
 
     if (result == CommandResults.customerNotExists) {
       stdout.writeln('${" ".noCustomerFound} - \"$username\"');
-      return;
+    } else if (result == CommandResults.notEnoughBalance) {
+      stdout.writeln('${data.customer?.notEnoughBalance}');
+    } else {
+      stdout.writeln('You transferred \$$amount to $username.');
+      stdout.writeln(data.customer?.transactionBalance);
     }
-
-    stdout.writeln('You transferred \$$amount to $username.');
-    stdout.writeln(data.customer?.transactionBalance);
   }
 }

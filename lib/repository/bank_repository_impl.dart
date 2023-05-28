@@ -115,6 +115,12 @@ class BankRepositoryImpl extends BankRepository {
 
   @override
   CommandResults transfer(double amount, String username) {
+    if (data.customer!.balance!.enoughBalance(amount)) {
+      data.customer?.balance?.withdraw(amount);
+    } else {
+      return CommandResults.notEnoughBalance;
+    }
+
     int indexToCustomerFound =
         data.customers.indexWhere((customer) => customer.username == username);
     if (indexToCustomerFound < 0) {
@@ -122,11 +128,6 @@ class BankRepositoryImpl extends BankRepository {
     }
 
     Customer toCustomer = data.customers[indexToCustomerFound];
-    if (data.customer!.balance!.enoughBalance(amount)) {
-      data.customer?.balance?.withdraw(amount);
-    } else {
-      return CommandResults.notEnoughBalance;
-    }
 
     CustomerTransaction loggedInTransaction = CustomerTransaction(
       id: data.customer?.incrementedId(),
